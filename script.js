@@ -11,6 +11,12 @@ const winMsg=(winner)=>{
     winn.classList.remove("hide")
 }
 
+const tieMsg=(winner)=>{
+    winn.innerText = `Game is Tie!`
+    newBtn.classList.remove("hide")
+    winn.classList.remove("hide")
+}
+
 const disableBox = ()=>{
     btn.forEach((box)=>{
         box.disabled = true;
@@ -58,6 +64,7 @@ btn.forEach((box)=>{
 winChance = [[0,3,6],[1,4,7],[2,5,8],[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6]];
 
 const winChecker = ()=>{
+    let hasWinner=false;
     for (chance of winChance){
         let chance1=btn[chance[0]].innerText;
         let chance2=btn[chance[1]].innerText;
@@ -68,12 +75,25 @@ const winChecker = ()=>{
                 console.log("Winner",chance1);
                 winMsg(chance1);
                 disableBox();
+                hasWinner=true;
+
             }
             
         }
 
     }
-}
+    if (!hasWinner) {
+        let allFilled = Array.from(btn).every((box) => box.innerText !== "");
+        if (allFilled) {
+            tieMsg();
+            disableBox();
+        }
+    }
+
+};
+
+
+
 
 reset.addEventListener("click",resetbtn);
 newBtn.addEventListener("click",resetbtn);
